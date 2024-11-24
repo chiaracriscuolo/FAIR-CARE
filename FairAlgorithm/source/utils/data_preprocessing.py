@@ -68,8 +68,8 @@ def search_and_remove_outliers(df, attributes):
   return df
 
 
-def age_category(row, column_name): 
-  if(row[column_name]>25):
+def age_category(row):
+  if(row["Age"]>25):
       return 1
   else:
       return 0
