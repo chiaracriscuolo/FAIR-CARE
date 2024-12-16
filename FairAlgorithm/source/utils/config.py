@@ -17,6 +17,7 @@ models = {'Logistic Regression':LogisticRegression(max_iter=500),
 
 family = ['division', 'subtraction']
 fairness_catalogue = ['GroupFairness', 'PredictiveParity', 'PredictiveEquality', 'EqualOpportunity', 'EqualizedOdds', 'ConditionalUseAccuracyEquality', 'OverallAccuracyEquality', 'TreatmentEquality', 'FORParity', 'FN', 'FP']
+performance_metrics = ['accuracy', 'precision', 'recall', 'f1_score']
 all_mitigations = ['fl-cr', 'fl-to', 'aif360-rw', 'aif360-di', 'aif360-lfr', 'aif360-op', 'aif360-ad', 'aif360-pr', 'aif360-er', 'aif360-ce', 'aif360-eo', 'aif360-roc']
 preprocessing_mitigation_list = ['fl-cr', 'aif360-rw', 'aif360-di', 'aif360-lfr', 'aif360-op']
 inprocessing_mitigation_list = ["aif360-ad", "aif360-er",'aif360-pr'] 
