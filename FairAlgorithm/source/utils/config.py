@@ -86,7 +86,7 @@ datasets_config = {
         'label_maps': [{1: 'Complication', 0: 'No Alzheimer'}],
         'protected_attribute_maps': [{0: 'Female', 1: 'Male'}]
     },
-    'n_splits': 10
+    'n_splits': 5
   },
   'alzheimer-disease':{
     'ignore_cols': [],
@@ -202,11 +202,44 @@ aif_config = {
     }
   },
   "myocardial-infarction":{
-    'SEX'
+    'SEX': {
+      'privileged_groups': [{'SEX': 1}], 
+      'unprivileged_groups': [{'SEX': 0}],
+      'reduced_df_techniques': [],
+      'params': {
+          'k':32,
+          'maxiter': 5000,
+          'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':5
+      }
+    }
   },
   'alzheimer-disease':{
-    'Ethnicity_cat', 
-    'Gender_cat',
+    'Ethnicity_cat': {
+      'privileged_groups': [{'Ethnicity_cat': 1}], 
+      'unprivileged_groups': [{'Ethnicity_cat': 0}],
+      'reduced_df_techniques': [],
+      'params': {
+          'k':80,
+          'maxiter': 5000,
+          'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':10
+      }
+    },
+    'Gender_cat': {
+      'privileged_groups': [{'Gender_cat': 1}], 
+      'unprivileged_groups': [{'Gender_cat': 0}],
+      'reduced_df_techniques': [],
+      'params': {
+          'k':80,
+          'maxiter': 5000,
+          'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':10
+      }
+    }
   },
   "diabetes-prediction":{
     'race_category':{

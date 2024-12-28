@@ -423,6 +423,22 @@ def distortion_function_aids(df, sensible_attribute):
   df2['cd420'] = np.where(df2['cd420'] < 353, 1, 0)
   return df2
 
+def distortion_function_alzheimer(df, sensible_attribute):
+  #TODO
+  return
+   
+def get_distortion_alzheimer(vold,vnew):
+  #TODO
+  return
+   
+def distortion_function_myocardial(df, sensible_attribute):
+  #TODO
+  return
+
+def get_distortion_myocardial(vold,vnew):
+  #TODO
+  return
+
 def extract_op_functions(dataset_name, sensible_attribute):
     if dataset_name=='diabetes-women':
         distortion_function = distortion_function_diabetes_women
@@ -439,6 +455,13 @@ def extract_op_functions(dataset_name, sensible_attribute):
     elif dataset_name=='aids':
         distortion_function = distortion_function_aids
         get_distortion_function = get_distortion_aids
+    elif dataset_name=='myocardial-infarction':
+        distortion_function = distortion_function_myocardial
+        get_distortion_function = get_distortion_myocardial
+    elif dataset_name=='alzheimer-disease':
+        distortion_function = distortion_function_alzheimer
+        get_distortion_function = get_distortion_alzheimer
+       
     return distortion_function, get_distortion_function
   
 def aif360_op(config):
