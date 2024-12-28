@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix
 from tqdm.notebook import tqdm
 from source.utils.config import *
 
-#UTILS TRAIN_TEST SPLIT
+#UTILS PERFORMANCE METRICS
 def train_test_splitting(df, n_splits):
   df_splitting = {}
 
@@ -47,7 +47,7 @@ def df_X_Y_split(df_train, df_test, target_variable):
   X_test = df_test.drop(target_variable, axis=1)
   return X_train, Y_train, X_test, Y_test
 
-def compute_predictions_and_tests(df, sensible_attribute, target_variable, n_splits, models, n_estimators, random_seed):
+def compute_predictions_and_tests(df, sensible_attribute, target_variable, n_splits, models):
   predicted_and_real_values = {}
   for model_name in tqdm(models):
     clf = models[model_name]
@@ -69,8 +69,6 @@ def compute_predictions_and_tests(df, sensible_attribute, target_variable, n_spl
 
   return predicted_and_real_values
 
-
-#UTIL PERFORMANCE
 def compute_mean_std_dev(metric_list, models):
   metric_dict = {}
   if models is not None:

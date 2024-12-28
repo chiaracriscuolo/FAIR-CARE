@@ -1,4 +1,3 @@
-
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, AdaBoostClassifier, BaggingClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -44,7 +43,16 @@ datasets_config = {
     'target_variable': 'Mortality',
     'target_variable_labels': [1,0],
     'sensible_attributes': ['Gender_cat', 'Age_cat'],
-    'default_mappings': {},
+    'default_mappings': {
+        'Gender_cat':{
+          'label_maps': [{1.0: 'Death', 0.0: 'Censored'}],
+          'protected_attribute_maps': [{1.0: 'Male', 0.0: 'Female'}]
+      },
+        'Age_cat': {
+          'label_maps': [{1.0: 'Death', 0.0: 'Censored'}],
+          'protected_attribute_maps': [{1.0: 'Adult', 0.0: 'Young'}]
+      }
+    },
     'n_splits': 5
   },
   'aids': {
@@ -52,7 +60,21 @@ datasets_config = {
     'target_variable': 'cid',
     'target_variable_labels': [1, 0],
     'sensible_attributes':  ['homo_cat', 'race_cat', 'age_cat'],
-    'default_mappings': {},
+    'default_mappings': {
+        'homo_cat':{
+            'label_maps': [{1.0: 'Death', 0.0: 'Censored'}],
+            'protected_attribute_maps': [{1.0: 'Non-Homo', 0.0: 'Homo'}]
+        },
+        'race_cat':{
+            'label_maps': [{1.0: 'Death', 0.0: 'Censored'}],
+            'protected_attribute_maps': [{1.0: 'White', 0.0: 'Non-white'}]
+        },
+        'age_cat':{
+            'label_maps': [{1.0: 'Death', 0.0: 'Censored'}],
+            'protected_attribute_maps': [{1.0: 'Adult', 0.0: 'Young'}]
+        }
+        
+    },
     'n_splits': 10
 },
   "myocardial-infarction":{
@@ -96,6 +118,122 @@ datasets_config = {
         'label_maps': [{1.0: 'Stroke', 0.0: 'No Stroke'}],
         'protected_attribute_maps': [{1.0: 'Urban', 0.0: 'Rural'}]
     },
-    'n_splits': 10
+    'n_splits': 5
   }
+}
+
+aif_config = {
+  "diabetes-women":{
+      'AgeCategory': {
+        'privileged_groups': [{'AgeCategory': 1}],
+        'unprivileged_groups': [{'AgeCategory': 0}],
+        'reduced_df_techniques': [],
+        'params': {
+          'k': 87,
+          'maxiter': 500,
+          'lmod' : LogisticRegression(solver='lbfgs', max_iter=1000),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':5 
+      } 
+    }
+  },
+  "sepsis": {
+    'Gender_cat': {
+      'privileged_groups': [{'Gender_cat': 1}], 
+      'unprivileged_groups': [{'Gender_cat': 0}],
+      'reduced_df_techniques': [],
+      'params': {
+          'k':52,
+          'maxiter': 5000,
+          'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':4
+      }
+    }, 
+    'Age_cat':{
+      'privileged_groups': [{'Age_cat': 1}], 
+      'unprivileged_groups': [{'Age_cat': 0}],
+      'reduced_df_techniques': [],
+      'params': {
+          'k':43,
+          'maxiter': 5000,
+          'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':5 
+      }
+    }
+  },
+  'aids':{
+    'homo_cat':{
+      'privileged_groups': [{'homo_cat': 1}], 
+      'unprivileged_groups': [{'homo_cat': 0}],
+      'reduced_df_techniques': [],
+      'params': {
+          'k':147,
+          'maxiter': 5000,
+          'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':10
+      }
+    }, 
+    'race_cat': {
+      'privileged_groups': [{'race_cat': 1}], 
+      'unprivileged_groups': [{'race_cat': 0}],
+      'reduced_df_techniques': [],
+      'params': {
+          'k':51,
+          'maxiter': 5000,
+          'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':10
+      }
+    },
+    'age_cat': {
+      'privileged_groups': [{'age_cat': 1}], 
+      'unprivileged_groups': [{'age_cat': 0}],
+      'reduced_df_techniques': [],
+      'params': {
+          'k':51,
+          'maxiter': 5000,
+          'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':10
+      }
+    }
+  },
+  "myocardial-infarction":{
+    'SEX'
+  },
+  'alzheimer-disease':{
+    'Ethnicity_cat', 
+    'Gender_cat',
+  },
+  "diabetes-prediction":{
+    'race_category':{
+      'privileged_groups': [{'race_category': 1}], 
+      'unprivileged_groups': [{'race_category': 0}],
+      'reduced_df_techniques': ['aif360-lfr', 'aif360-op', 'aif360-roc'],
+      'params': {
+          'k':4,
+          'maxiter': 500,
+          'lmod': DecisionTreeClassifier(max_depth=50),
+          'metric_name': "Equal opportunity difference",
+          'n_splits_eo':10 
+      }
+    }
+  },
+  "stroke-prediction":{
+    'residence_category':{
+        'privileged_groups': [{'residence_category': 1}],  
+        'unprivileged_groups': [{'residence_category': 0}],
+        'reduced_df_techniques': ['aif360-lfr', 'aif360-op', 'aif360-roc'],
+        'params': {
+          'k': 92,
+          'maxiter': 500,
+          'lmod' : DecisionTreeClassifier(max_depth=50),
+          'metric_name': "Statistical parity difference",
+          'n_splits_eo':5 
+      } 
+    }    
+  }   
 }
