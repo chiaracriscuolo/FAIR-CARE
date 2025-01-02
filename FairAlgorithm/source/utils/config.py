@@ -33,8 +33,10 @@ datasets_config = {
     'target_variable_labels': [1,0],
     'sensible_attributes': ['AgeCategory'],
     'default_mappings': {
-      'label_maps': [{1.0: 'Diabetic', 0.0: 'NonDiabetic'}],
-      'protected_attribute_maps': [{1.0: 'Adult', 0.0: 'Young'}]
+      'Age':{
+        'label_maps': [{1.0: 'Diabetic', 0.0: 'NonDiabetic'}],
+        'protected_attribute_maps': [{1.0: 'Adult', 0.0: 'Young'}]
+      }
     },
     'n_splits': 5
   },
@@ -82,9 +84,11 @@ datasets_config = {
     'target_variable': 'LET_IS_cat',
     'target_variable_labels': [1,0],
     'sensible_attributes': ['SEX'],
-    'default_mappings': {
-        'label_maps': [{1: 'Complication', 0: 'No Alzheimer'}],
-        'protected_attribute_maps': [{0: 'Female', 1: 'Male'}]
+    'default_mappings':{
+      'SEX': {
+          'label_maps': [{1: 'Complication', 0: 'No Alzheimer'}],
+          'protected_attribute_maps': [{0: 'Female', 1: 'Male'}]
+        }
     },
     'n_splits': 5
   },
@@ -94,8 +98,14 @@ datasets_config = {
     'target_variable_labels': [1, 0],
     'sensible_attributes': ['Ethnicity_cat', 'Gender_cat'],
     'default_mappings': {
+      "Ethnicity_cat": {
         'label_maps': [{1: 'Alzheimer', 0: 'No Alzheimer'}],
-        'protected_attribute_maps': [{"Ethnicity_cat":{1: "Caucasian", 0: "Non-Caucasian"}, "Gender_cat":{1: "Male", 0: "Female"}}]
+        'protected_attribute_maps': [{1: "Caucasian", 0: "Non-Caucasian"}]
+    },
+      "Gender_cat": {
+        'label_maps': [{1: 'Alzheimer', 0: 'No Alzheimer'}],
+        'protected_attribute_maps': [{1: "Male", 0: "Female"}]
+    },
     },
     'n_splits': 10
   },
@@ -104,8 +114,11 @@ datasets_config = {
     'target_variable': 'diabetes',
     'target_variable_labels': [1, 0],
     'sensible_attributes': ['race_category'],
-    'default_mappings': {'label_maps': [{1.0: 'Diabetic', 0.0: 'NonDiabetic'}],
-                        'protected_attribute_maps': [{1.0: 'Caucasian', 0.0: 'Non-Caucasian'}] 
+    'default_mappings': {
+      'race_category': {
+        'label_maps': [{1.0: 'Diabetic', 0.0: 'NonDiabetic'}],
+        'protected_attribute_maps': [{1.0: 'Caucasian', 0.0: 'Non-Caucasian'}] 
+      }
     },
     'n_splits': 10
   },
@@ -115,8 +128,10 @@ datasets_config = {
     'target_variable_labels': [1, 0],
     'sensible_attributes': ['residence_category'],
     'default_mappings': {
-        'label_maps': [{1.0: 'Stroke', 0.0: 'No Stroke'}],
-        'protected_attribute_maps': [{1.0: 'Urban', 0.0: 'Rural'}]
+        'residence_category': {
+          'label_maps': [{1.0: 'Stroke', 0.0: 'No Stroke'}],
+          'protected_attribute_maps': [{1.0: 'Urban', 0.0: 'Rural'}]
+      }
     },
     'n_splits': 5
   }
@@ -130,9 +145,9 @@ aif_config = {
         'reduced_df_techniques': [],
         'params': {
           'k': 87,
-          'maxiter': 500,
+          'max_iter_lfr': 500,
           'lmod' : LogisticRegression(solver='lbfgs', max_iter=1000),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':5 
       } 
     }
@@ -144,9 +159,9 @@ aif_config = {
       'reduced_df_techniques': [],
       'params': {
           'k':52,
-          'maxiter': 5000,
+          'max_iter_lfr': 5000,
           'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':4
       }
     }, 
@@ -156,9 +171,9 @@ aif_config = {
       'reduced_df_techniques': [],
       'params': {
           'k':43,
-          'maxiter': 5000,
+          'max_iter_lfr': 5000,
           'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':5 
       }
     }
@@ -170,9 +185,9 @@ aif_config = {
       'reduced_df_techniques': [],
       'params': {
           'k':147,
-          'maxiter': 5000,
+          'max_iter_lfr': 5000,
           'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':10
       }
     }, 
@@ -182,9 +197,9 @@ aif_config = {
       'reduced_df_techniques': [],
       'params': {
           'k':51,
-          'maxiter': 5000,
+          'max_iter_lfr': 5000,
           'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':10
       }
     },
@@ -194,9 +209,9 @@ aif_config = {
       'reduced_df_techniques': [],
       'params': {
           'k':51,
-          'maxiter': 5000,
+          'max_iter_lfr': 5000,
           'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':10
       }
     }
@@ -208,9 +223,9 @@ aif_config = {
       'reduced_df_techniques': [],
       'params': {
           'k':32,
-          'maxiter': 5000,
+          'max_iter_lfr': 5000,
           'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':5
       }
     }
@@ -222,9 +237,9 @@ aif_config = {
       'reduced_df_techniques': [],
       'params': {
           'k':80,
-          'maxiter': 5000,
+          'max_iter_lfr': 5000,
           'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':10
       }
     },
@@ -234,9 +249,9 @@ aif_config = {
       'reduced_df_techniques': [],
       'params': {
           'k':80,
-          'maxiter': 5000,
+          'max_iter_lfr': 5000,
           'lmod': LogisticRegression(solver='lbfgs', max_iter=1000),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':10
       }
     }
@@ -248,9 +263,9 @@ aif_config = {
       'reduced_df_techniques': ['aif360-lfr', 'aif360-op', 'aif360-roc'],
       'params': {
           'k':4,
-          'maxiter': 500,
+          'max_iter_lfr': 500,
           'lmod': DecisionTreeClassifier(max_depth=50),
-          'metric_name': "Equal opportunity difference",
+          'metric_name_roc': "Equal opportunity difference",
           'n_splits_eo':10 
       }
     }
@@ -262,9 +277,9 @@ aif_config = {
         'reduced_df_techniques': ['aif360-lfr', 'aif360-op', 'aif360-roc'],
         'params': {
           'k': 92,
-          'maxiter': 500,
+          'max_iter_lfr': 500,
           'lmod' : DecisionTreeClassifier(max_depth=50),
-          'metric_name': "Statistical parity difference",
+          'metric_name_roc': "Statistical parity difference",
           'n_splits_eo':5 
       } 
     }    

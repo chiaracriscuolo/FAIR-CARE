@@ -284,7 +284,7 @@ def aif360_lfr(config):
   data_orig_aif = BinaryLabelDataset(favorable_label = 1, unfavorable_label = 0, df = df.copy(), label_names = [target_variable], protected_attribute_names = [sensible_attribute])
 
   #TR = TR.fit(data_orig_aif, maxiter=5000, maxfun=5000)
-  TR = TR.fit(data_orig_aif, maxiter=params['maxiter'], maxfun=params['maxiter']) 
+  TR = TR.fit(data_orig_aif, maxiter=params['max_iter_lfr'], maxfun=params['max_iter_lfr']) 
   transf_dataset = TR.transform(data_orig_aif)
   mit_aif360_lfr = transf_dataset.convert_to_dataframe()[0]
 
@@ -424,20 +424,60 @@ def distortion_function_aids(df, sensible_attribute):
   return df2
 
 def distortion_function_alzheimer(df, sensible_attribute):
-  #TODO
-  return
+  # Keep the 5 most correlated columns together with the sensitive attribute.
+  cols_to_keep = ['Diagnosis', 'MemoryComplaints', 'BehavioralProblems', 'CholesterolHDL',
+                  'Hypertension', sensible_attribute]
+  df2 = df[cols_to_keep].copy()
+
+  # Binarization of attributes based on typical values or literals
+  df2['MemoryComplaints'] = np.where(df2['MemoryComplaints'] == 1, 1, 0)
+  df2['BehavioralProblems'] = np.where(df2['BehavioralProblems'] == 1, 1, 0)
+  df2['CholesterolHDL'] = np.where(df2['CholesterolHDL'] < 60, 1, 0)  # Healthy HDL > 60
+  df2['Hypertension'] = np.where(df2['Hypertension'] == 1, 1, 0)  # 1=High pressure
+
+  return df2 
    
 def get_distortion_alzheimer(vold,vnew):
-  #TODO
-  return
+  bad_val = 3
+  OutNew = vnew["Diagnosis"]
+  OutOld = vold["Diagnosis"]
+  #MemNew = vnew["MemoryComplaints"]
+  #MemOld = vold["MemoryComplaints"]
+  #BehNew = vnew["BehavioralProblems"]
+  #BehOld = vold["BehavioralProblems"]
+
+  if (OutNew > OutOld): # & (MemNew < MemOld)) | ((OutNew > OutOld) & (BehNew < BehOld)):
+      return bad_val
+  else:
+      return 0
    
 def distortion_function_myocardial(df, sensible_attribute):
-  #TODO
-  return
+    # Keep the 5 most correlated columns together with the sensitive attribute.
+    cols_to_keep = ['LET_IS_cat', 'RAZRIV', 'REC_IM', 'ZSN_A', 'AGE', 'SEX']
+    df2 = df[cols_to_keep].copy()
+
+    # Binarization of attributes based on typical values or literals
+    df2['RAZRIV'] = np.where(df2['RAZRIV'] == 1, 1, 0)
+    df2['REC_IM'] = np.where(df2['REC_IM'] == 1, 1, 0)
+    df2['ZSN_A'] = np.where(df2['ZSN_A'] > 1, 1, 0)  # Presence (1) or absence (0) of heart failure
+    df2['AGE'] = np.where(df2['AGE'] >= 60, 1, 0)  # Age over or under 60 years old
+    df2[sensible_attribute] = np.where(df2[sensible_attribute] == 1, 1, 0)  # Sex: 1=Male, 0=Female
+
+    return df2
 
 def get_distortion_myocardial(vold,vnew):
-  #TODO
-  return
+    bad_val = 3
+    OutNew = vnew["LET_IS_cat"]
+    OutOld = vold["LET_IS_cat"]
+    #RazNew = vnew["RAZRIV"]
+    #RazOld = vold["RAZRIV"]
+    #RecNew = vnew["REC_IM"]
+    #RecOld = vold["REC_IM"]
+
+    if (OutNew>OutOld): #& (RazNew < RazOld)) #| ((OutNew > OutOld) & (RecNew < RecOld)):
+        return bad_val
+    else:
+        return 0
 
 def extract_op_functions(dataset_name, sensible_attribute):
     if dataset_name=='diabetes-women':
@@ -783,7 +823,7 @@ def aif360_roc(config):
                                  privileged_groups=privileged_groups,
                                  low_class_thresh=0.01, high_class_thresh=0.99,
                                   num_class_thresh=100, num_ROC_margin=50,
-                                  metric_name=params['metric_name'], metric_ub=0.05, metric_lb=-0.05)
+                                  metric_name=params['metric_name_roc'], metric_ub=0.05, metric_lb=-0.05)
 
     df_splitting = train_test_splitting(df, n_splits)
     pred_and_y = {}
