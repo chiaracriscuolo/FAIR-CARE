@@ -405,6 +405,32 @@ def grouped_bar_no_model_std_dev(metrics_dict, mitigation_list, comparison, miti
   # Show the plot
   plt.show()
 
+def color_cells_mean(value):
+    numeric_value = float(value.split('+/-')[0])  # Extract numeric part
+    threshold_high = 0.15
+    threshold_low = -0.15
+    if threshold_low <= numeric_value <= threshold_high:
+    # Pastel green for values within the range
+        return 'background-color: #b2d8b2; color: black;'
+    else:
+        # Pastel orange for values outside the range
+        return 'background-color: #f9ccac; color: black;'
+
+# Define a function for conditional formatting
+def color_cells(value):
+    # Extract the numeric part and the uncertainty
+    main_value, uncertainty = map(float, value.split('+/-'))
+    # Compute the complete value
+    complete_value_max = main_value + uncertainty
+    complete_value_min = main_value - uncertainty
+    # Apply thresholds
+    if (-0.15 <= complete_value_max <= 0.15) and (-0.15 <= complete_value_min <= 0.15):
+      # Pastel green for values within the range
+      return 'background-color: #b2d8b2; color: black;'
+    else:
+      # Pastel orange for values outside the range
+      return 'background-color: #f9ccac; color: black;'
+
 def data_framing(dictionary, dataset, sensible_attribute, comparison, model, mitigation_list):
   # Define the columns for your DataFrame
   columns = ['Mitigation'] + metrics
@@ -416,13 +442,23 @@ def data_framing(dictionary, dataset, sensible_attribute, comparison, model, mit
     l = []
     l.append(mitigation)
     for metric in metrics:
-      l.append(dictionary[dataset][sensible_attribute][mitigation][comparison][model][metric][0])
+      if model is not None:
+        l.append(f"{dictionary[dataset][sensible_attribute][mitigation][comparison][model][metric][0]:.3f}+/-{dictionary[dataset][sensible_attribute][mitigation][comparison][model][metric][1]:.3f}")
+      else:
+        l.append(f"{dictionary[dataset][sensible_attribute][mitigation][comparison][metric][0]:.3f}+/-{dictionary[dataset][sensible_attribute][mitigation][comparison][metric][1]:.3f}")
     row_df = pd.DataFrame([l], columns=columns)
     data = pd.concat([data, row_df], ignore_index=True)
 
   data.set_index('Mitigation', inplace=True)
-  return data
+  if model is not None:
+    title = f"{dataset} | {sensible_attribute} | {comparison} | Model: {model}"
+  else:
+    title = f"{dataset} | {sensible_attribute} | {comparison}"
 
+  # Apply the conditional formatting
+  styled_data = data.style.set_caption(title).applymap(color_cells, subset=metrics)
+  return styled_data
+  
 def perf_data_framing(dictionary, dataset, sensible_attribute, model, mitigation_list):
   # Define the columns for your DataFrame
   columns = ['Mitigation'] + perf_metrics
