@@ -43,7 +43,4 @@ This Github repository contains the source code and the plots of the experiments
 └── README.md
 ```
 # Info for developers
-It is possible to visualize the content of this repository also in [this Google Colab project](https://drive.google.com/drive/folders/182YKE0bNOltAezFfcEVEy7-FwXemlWX8?usp=sharing) otherwise the following specifications allow to execute this code locally.
-
-# Requirement
-It is possible to execute the code, both on Google Colaboratory or locally using Jupyter Notebook with Python kernel.
+It is possible to visualize the content of this repository also in [this Google Colab project](https://drive.google.com/drive/folders/182YKE0bNOltAezFfcEVEy7-FwXemlWX8?usp=sharing) otherwise the following specifications allow to execute this code locally using Jupyter Notebook with Python kernel.
