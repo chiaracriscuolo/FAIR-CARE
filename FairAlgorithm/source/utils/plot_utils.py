@@ -85,7 +85,7 @@ def perf_grouped_bar(metrics_dict, mitigation_list, model, mitigation_category, 
   # Add labels and title
   plt.xlabel('Perfomance Metrics')
   plt.ylabel('Perfomance Values')
-  plt.title(dataset_name+' '+sensible_attribute+' '+model+' '+mitigation_category)
+  # plt.title(dataset_name+' '+sensible_attribute+' '+model+' '+mitigation_category)
 
   plt.xticks(bar_positions + bar_width, perf_metrics, rotation=45, ha='right')
   plt.legend()
@@ -135,7 +135,7 @@ def perf_grouped_bar_no_model(metrics_dict, mitigation_list, mitigation_category
   # Add labels and title
   plt.xlabel('Performance Metrics')
   plt.ylabel('Performance Metric Values')
-  plt.title(dataset_name+' '+mitigation_category)
+  # plt.title(dataset_name+' '+mitigation_category)
 
   plt.xticks(bar_positions + bar_width, perf_metrics, rotation=45, ha='right')
   plt.legend()
@@ -183,7 +183,7 @@ def grouped_bar(metrics_dict, mitigation_list, comparison, model, mitigation_cat
   # Add labels and title with increased font size and bold text
   plt.xlabel('Fairness Metrics', fontsize=14)
   plt.ylabel('Fairness Metric Values', fontsize=14)
-  plt.title(f"{dataset_name} {sensible_attribute} {model} {comparison} {mitigation_category}", fontsize=16, fontweight='bold')
+  # plt.title(f"{dataset_name} {sensible_attribute} {model} {comparison} {mitigation_category}", fontsize=16, fontweight='bold')
 
   # Map metrics and set x-ticks
   mapped_metrics = list(map(map_metric, metrics))
@@ -248,7 +248,7 @@ def grouped_bar_no_model(metrics_dict, mitigation_list, comparison, mitigation_c
   # Add labels and title
   plt.xlabel('Fairness Metrics', fontsize=14)
   plt.ylabel('Fairness Metric Values', fontsize=14)
-  plt.title(dataset_name+' '+sensible_attribute+' '+comparison+' '+mitigation_category, fontsize=16, fontweight='bold')
+  # plt.title(dataset_name+' '+sensible_attribute+' '+comparison+' '+mitigation_category, fontsize=16, fontweight='bold')
 
   mapped_metrics = map(map_metric, metrics)
   plt.xticks(bar_positions + bar_width, mapped_metrics, rotation=45, ha='right',  fontsize=14)
@@ -312,7 +312,7 @@ def grouped_bar_std_dev(metrics_dict, mitigation_list, comparison, model, mitiga
   # Add labels and title with increased font size and bold text
   plt.xlabel('Fairness Metrics', fontsize=14)
   plt.ylabel('Fairness Metric Values', fontsize=14)
-  plt.title(f"{dataset_name} {sensible_attribute} {model} {comparison} {mitigation_category}", fontsize=16, fontweight='bold')
+  # plt.title(f"{dataset_name} {sensible_attribute} {model} {comparison} {mitigation_category}", fontsize=16, fontweight='bold')
 
   # Map metrics and set x-ticks
   mapped_metrics = list(map(map_metric, metrics))
@@ -385,7 +385,7 @@ def grouped_bar_no_model_std_dev(metrics_dict, mitigation_list, comparison, miti
   # Add labels and title
   plt.xlabel('Fairness Metrics', fontsize=14)
   plt.ylabel('Fairness Metric Values', fontsize=14)
-  plt.title(dataset_name+' '+sensible_attribute+' '+comparison+' '+mitigation_category, fontsize=16, fontweight='bold')
+  # plt.title(dataset_name+' '+sensible_attribute+' '+comparison+' '+mitigation_category, fontsize=16, fontweight='bold')
 
   #mapped_metrics = map(map_metric, metrics)
   #plt.xticks(bar_positions + bar_width, mapped_metrics, rotation=45, ha='right',  fontsize=14)
@@ -417,7 +417,7 @@ def color_cells_mean(value):
         return 'background-color: #f9ccac; color: black;'
 
 # Define a function for conditional formatting
-def color_cells(value):
+def color_cells_mean_std_dev(value):
     # Extract the numeric part and the uncertainty
     main_value, uncertainty = map(float, value.split('+/-'))
     # Compute the complete value
@@ -431,7 +431,7 @@ def color_cells(value):
       # Pastel orange for values outside the range
       return 'background-color: #f9ccac; color: black;'
 
-def data_framing(dictionary, dataset, sensible_attribute, comparison, model, mitigation_list):
+def data_framing(dictionary, dataset, sensible_attribute, comparison, model, mitigation_list, option):
   # Define the columns for your DataFrame
   columns = ['Mitigation'] + metrics
 
@@ -450,13 +450,20 @@ def data_framing(dictionary, dataset, sensible_attribute, comparison, model, mit
     data = pd.concat([data, row_df], ignore_index=True)
 
   data.set_index('Mitigation', inplace=True)
-  if model is not None:
-    title = f"{dataset} | {sensible_attribute} | {comparison} | Model: {model}"
+  if model is not None and option == 'mean':
+    title = f"{dataset} | {sensible_attribute} | {comparison} | Model: {model} - MEAN"
+  elif model is not None and option != 'mean':
+    title = f"{dataset} | {sensible_attribute} | {comparison} | Model: {model} - MEAN AND STD DEV"
+  elif model is None and option == 'mean':
+    title = f"{dataset} | {sensible_attribute} | {comparison}- MEAN"
   else:
-    title = f"{dataset} | {sensible_attribute} | {comparison}"
+    title = f"{dataset} | {sensible_attribute} | {comparison}- MEAN AND STD DEV"
 
   # Apply the conditional formatting
-  styled_data = data.style.set_caption(title).applymap(color_cells, subset=metrics)
+  if option=='mean':
+    styled_data = data.style.set_caption(title).applymap(color_cells_mean, subset=metrics)
+  else: 
+    styled_data = data.style.set_caption(title).applymap(color_cells_mean_std_dev, subset=metrics)
   return styled_data
   
 def perf_data_framing(dictionary, dataset, sensible_attribute, model, mitigation_list):

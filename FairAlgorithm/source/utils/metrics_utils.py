@@ -486,7 +486,7 @@ def fairness_metrics_subtraction(confusion_matrix, threshold = 0.15):
     PredictiveEquality_priv = 0
   else:
     PredictiveEquality_priv = (FP_priv)/(TN_priv+FP_priv)
-  PredictiveEquality = PredictiveEquality_priv-PredictiveEquality_discr
+  PredictiveEquality = PredictiveEquality_discr-PredictiveEquality_priv
 
   if TP_discr+FN_discr == 0:
     EqualOpportunity_discr = 0
@@ -503,13 +503,13 @@ def fairness_metrics_subtraction(confusion_matrix, threshold = 0.15):
   elif FN_priv+TP_priv == 0:
     EqualizedOdds1 = 0
   else:
-    EqualizedOdds1 = (TP_priv/(TP_priv+FN_priv))-(TP_discr/(TP_discr+FN_discr)) # (1-equalOpportunity_discr)/(1-equalOpportunity_priv)
+    EqualizedOdds1 = (TP_discr/(TP_discr+FN_discr))-(TP_priv/(TP_priv+FN_priv)) # (1-equalOpportunity_discr)/(1-equalOpportunity_priv)
   if FP_priv+TN_priv == 0:
     EqualizedOdds2 = 0
   elif FP_discr+TN_discr == 0:
     EqualizedOdds2 = 0
   else:
-    EqualizedOdds2 = (FP_priv/(TN_priv+FP_priv))-(FP_discr/(TN_discr+FP_discr)) # = PredictiveEquality
+    EqualizedOdds2 = (FP_discr/(TN_discr+FP_discr))-(FP_priv/(TN_priv+FP_priv)) # = PredictiveEquality
   EqualizedOdds = sub_and_function(EqualizedOdds1, EqualizedOdds2, threshold)
 
   if TP_discr+FP_discr == 0:
@@ -517,13 +517,13 @@ def fairness_metrics_subtraction(confusion_matrix, threshold = 0.15):
   elif TP_priv+FP_priv == 0:
     ConditionalUseAccuracyEquality1 = 0
   else:
-    ConditionalUseAccuracyEquality1 = (TP_priv/(TP_priv+FP_priv)) - (TP_discr/(TP_discr+FP_discr))
+    ConditionalUseAccuracyEquality1 = (TP_discr/(TP_discr+FP_discr))-(TP_priv/(TP_priv+FP_priv))
   if TN_discr+FN_discr == 0:
     ConditionalUseAccuracyEquality2 = 0
   elif TN_priv+FN_priv == 0:
     ConditionalUseAccuracyEquality2 = 0
   else:
-    ConditionalUseAccuracyEquality2 = (TN_priv/(TN_priv+FN_priv)) - (TN_discr/(TN_discr+FN_discr))
+    ConditionalUseAccuracyEquality2 = (TN_discr/(TN_discr+FN_discr))-(TN_priv/(TN_priv+FN_priv)) 
   ConditionalUseAccuracyEquality = sub_and_function(ConditionalUseAccuracyEquality1, ConditionalUseAccuracyEquality2, threshold)
 
   OAE_discr = (TP_discr+TN_discr)/len_discr

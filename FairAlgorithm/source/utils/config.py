@@ -142,7 +142,7 @@ aif_config = {
       'AgeCategory': {
         'privileged_groups': [{'AgeCategory': 1}],
         'unprivileged_groups': [{'AgeCategory': 0}],
-        'reduced_df_techniques': [],
+        'reduced_df_techniques': None,
         'params': {
           'k': 87,
           'max_iter_lfr': 500,
@@ -156,7 +156,7 @@ aif_config = {
     'Gender_cat': {
       'privileged_groups': [{'Gender_cat': 1}], 
       'unprivileged_groups': [{'Gender_cat': 0}],
-      'reduced_df_techniques': [],
+      'reduced_df_techniques': None,
       'params': {
           'k':52,
           'max_iter_lfr': 5000,
@@ -168,7 +168,7 @@ aif_config = {
     'Age_cat':{
       'privileged_groups': [{'Age_cat': 1}], 
       'unprivileged_groups': [{'Age_cat': 0}],
-      'reduced_df_techniques': [],
+      'reduced_df_techniques': None,
       'params': {
           'k':43,
           'max_iter_lfr': 5000,
@@ -182,7 +182,7 @@ aif_config = {
     'homo_cat':{
       'privileged_groups': [{'homo_cat': 1}], 
       'unprivileged_groups': [{'homo_cat': 0}],
-      'reduced_df_techniques': [],
+      'reduced_df_techniques': None,
       'params': {
           'k':147,
           'max_iter_lfr': 5000,
@@ -194,7 +194,7 @@ aif_config = {
     'race_cat': {
       'privileged_groups': [{'race_cat': 1}], 
       'unprivileged_groups': [{'race_cat': 0}],
-      'reduced_df_techniques': [],
+      'reduced_df_techniques': None,
       'params': {
           'k':51,
           'max_iter_lfr': 5000,
@@ -206,7 +206,7 @@ aif_config = {
     'age_cat': {
       'privileged_groups': [{'age_cat': 1}], 
       'unprivileged_groups': [{'age_cat': 0}],
-      'reduced_df_techniques': [],
+      'reduced_df_techniques': None,
       'params': {
           'k':51,
           'max_iter_lfr': 5000,
@@ -220,7 +220,7 @@ aif_config = {
     'SEX': {
       'privileged_groups': [{'SEX': 1}], 
       'unprivileged_groups': [{'SEX': 0}],
-      'reduced_df_techniques': [],
+      'reduced_df_techniques': None,
       'params': {
           'k':32,
           'max_iter_lfr': 5000,
@@ -234,7 +234,7 @@ aif_config = {
     'Ethnicity_cat': {
       'privileged_groups': [{'Ethnicity_cat': 1}], 
       'unprivileged_groups': [{'Ethnicity_cat': 0}],
-      'reduced_df_techniques': [],
+      'reduced_df_techniques': None,
       'params': {
           'k':80,
           'max_iter_lfr': 5000,
@@ -246,7 +246,7 @@ aif_config = {
     'Gender_cat': {
       'privileged_groups': [{'Gender_cat': 1}], 
       'unprivileged_groups': [{'Gender_cat': 0}],
-      'reduced_df_techniques': [],
+      'reduced_df_techniques': None,
       'params': {
           'k':80,
           'max_iter_lfr': 5000,

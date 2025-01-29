@@ -165,7 +165,7 @@ def extract_reduction(dataset_name, sensible_attribute):
 def fl_cr(config):
   mitigation='fl-cr'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -192,7 +192,7 @@ def fl_cr(config):
 def fl_to(config):
   mitigation='fl-to'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -210,7 +210,7 @@ def fl_to(config):
 def aif360_rw(config):
   mitigation = 'aif360-rw'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -249,7 +249,7 @@ def aif360_rw(config):
 def aif360_di(config):
   mitigation = 'aif360-di'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -273,7 +273,7 @@ def aif360_di(config):
 def aif360_lfr(config):
   mitigation = 'aif360-lfr'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -507,7 +507,7 @@ def extract_op_functions(dataset_name, sensible_attribute):
 def aif360_op(config):
   mitigation = 'aif360-op'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -547,7 +547,7 @@ def aif360_op(config):
 def aif360_pr(config):
   mitigation = 'aif360-pr'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -592,7 +592,7 @@ def aif360_pr(config):
 def aif360_er(config):
   mitigation = 'aif360-er'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -638,7 +638,7 @@ def aif360_er(config):
 def aif360_ad(config):
   mitigation = 'aif360-ad'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -696,7 +696,7 @@ def compute_predictions(x_train, y_train, x_test, model):
 def aif360_ce(config):
   mitigation = 'aif360-ce'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -754,7 +754,7 @@ def aif360_ce(config):
 def aif360_eo(config):
   mitigation = 'aif360-eo'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
@@ -812,7 +812,7 @@ def aif360_eo(config):
 def aif360_roc(config):
   mitigation = 'aif360-roc'
   df, dataset_name, target_variable,sensible_attribute, path_to_project, n_splits, models, random_seed, privileged_groups, unprivileged_groups, default_mappings, reduced_df_techniques, params = unpack_config(config)
-  if mitigation in reduced_df_techniques:
+  if reduced_df_techniques is not None and mitigation in reduced_df_techniques:
     reduce_df = extract_reduction(dataset_name, sensible_attribute)
     df = reduce_df(df, sensible_attribute, target_variable)
 
