@@ -33,7 +33,7 @@ datasets_config = {
     'target_variable_labels': [1,0],
     'sensible_attributes': ['AgeCategory'],
     'default_mappings': {
-      'Age':{
+      'AgeCategory':{
         'label_maps': [{1.0: 'Diabetic', 0.0: 'NonDiabetic'}],
         'protected_attribute_maps': [{1.0: 'Adult', 0.0: 'Young'}]
       }

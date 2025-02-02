@@ -159,7 +159,7 @@ def extract_reduction(dataset_name, sensible_attribute):
     reduce_df = reduce_df_diabetes_prediction
   elif dataset_name=='stroke-prediction':
     reduce_df = reduced_df_stroke
-    return reduce_df
+  return reduce_df
 
 #MITIGATION UTILS
 def fl_cr(config):
