@@ -55,50 +55,67 @@ def map_metric(metric):
   }
   return met_dict[metric]
 
+# Add a colorblind-friendly palette
+COLORBLIND_PALETTE = [
+    "#0072B2",  # Blue
+    "#E69F00",  # Orange
+    "#009E73",  # Green
+    "#F0E442",  # Yellow
+    "#56B4E9",  # Light Blue
+    "#D55E00",  # Red-Orange
+    "#CC79A7",  # Pink
+    "#999999"   # Grey
+]
+
+# Optional: hatch patterns to improve accessibility further
+HATCH_PATTERNS = ['/', '\\', '|', '-', '+', 'x', 'o', 'O', '.', '*']
+
 def perf_grouped_bar(metrics_dict, mitigation_list, model, mitigation_category, dataset_name, sensible_attribute):
-  bars_per_group = len(perf_metrics)
-  num_groups = len(mitigation_list)
+    bars_per_group = len(perf_metrics)
+    num_groups = len(mitigation_list)
 
-  data = []
-  for mitigation in mitigation_list:
-    l = []
-    for metric in perf_metrics:
-      l.append(metrics_dict[mitigation][metric][model][0])
-    data.append(l)
+    data = []
+    for mitigation in mitigation_list:
+        l = []
+        for metric in perf_metrics:
+            l.append(metrics_dict[mitigation][metric][model][0])
+        data.append(l)
 
-  data = np.asarray(data)
-  data = data.reshape((num_groups, bars_per_group))
+    data = np.asarray(data)
+    data = data.reshape((num_groups, bars_per_group))
 
-  # Set up bar positions
-  bar_width = 0.1
-  bar_positions = np.arange(bars_per_group)
+    # Set up bar positions
+    bar_width = 0.1
+    bar_positions = np.arange(bars_per_group)
 
-  plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(12, 6))
 
-  # Plot the vertical bar plot
-  for i in range(num_groups):
-      plt.bar(bar_positions + i*bar_width,
-              data[i],
-              width=bar_width,
-              label=mitigation_list[i])
+    # Plot bars with colorblind-friendly palette and hatch patterns
+    for i in range(num_groups):
+        plt.bar(bar_positions + i * bar_width,
+                data[i],
+                width=bar_width,
+                label=mitigation_list[i],
+                color=COLORBLIND_PALETTE[i % len(COLORBLIND_PALETTE)], edgecolor='black', linewidth=0.8)
+                #hatch=HATCH_PATTERNS[i % len(HATCH_PATTERNS)])
 
-  # Add labels and title
-  plt.xlabel('Perfomance Metrics')
-  plt.ylabel('Perfomance Values')
-  # plt.title(dataset_name+' '+sensible_attribute+' '+model+' '+mitigation_category)
+    # Add labels and title
+    plt.xlabel('Performance Metrics')
+    plt.ylabel('Performance Values')
+    # plt.title(dataset_name+' '+sensible_attribute+' '+model+' '+mitigation_category)
 
-  plt.xticks(bar_positions + bar_width, perf_metrics, rotation=45, ha='right')
-  plt.legend()
+    plt.xticks(bar_positions + bar_width * num_groups / 2, perf_metrics, rotation=45, ha='right')
+    plt.legend()
 
-  model_no_spaces = model.replace(" ", "")
-  configuration = f"{dataset_name}-{sensible_attribute}/performance"
-  file_name = f"{mitigation_category}-{model_no_spaces}.png"
+    model_no_spaces = model.replace(" ", "")
+    configuration = f"{dataset_name}-{sensible_attribute}/performance"
+    file_name = f"{mitigation_category}-{model_no_spaces}.png"
 
-  path = os.path.join(path_to_project,'plots', configuration, file_name )
-  plt.savefig(path, bbox_inches="tight")
+    path = os.path.join(path_to_project, 'plots', configuration, file_name)
+    plt.savefig(path, bbox_inches="tight")
 
-  # Show the plot
-  plt.show()
+    # Show the plot
+    plt.show()
 
 def perf_grouped_bar_no_model(metrics_dict, mitigation_list, mitigation_category, dataset_name, sensible_attribute):
   bars_per_group = len(perf_metrics)
@@ -125,7 +142,9 @@ def perf_grouped_bar_no_model(metrics_dict, mitigation_list, mitigation_category
       plt.bar(bar_positions + i*bar_width,
               data[i],
               width=bar_width,
-              label=mitigation_list[i])
+              label=mitigation_list[i],
+              color=COLORBLIND_PALETTE[i % len(COLORBLIND_PALETTE)], edgecolor='black', linewidth=0.8)
+              #hatch=HATCH_PATTERNS[i % len(HATCH_PATTERNS)])
   # Add red threshold lines
   threshold_high = 0.15
   threshold_low = -0.15
@@ -135,7 +154,7 @@ def perf_grouped_bar_no_model(metrics_dict, mitigation_list, mitigation_category
   # Add labels and title
   plt.xlabel('Performance Metrics')
   plt.ylabel('Performance Metric Values')
-  # plt.title(dataset_name+' '+mitigation_category)
+  ##plt.title(dataset_name+' '+sensible_attribute+' '+mitigation_category)
 
   plt.xticks(bar_positions + bar_width, perf_metrics, rotation=45, ha='right')
   plt.legend()
@@ -174,7 +193,9 @@ def grouped_bar(metrics_dict, mitigation_list, comparison, model, mitigation_cat
       plt.bar(bar_positions + i*bar_width,
               data[i],
               width=bar_width,
-              label=map_mitigation(mitigation_list[i]))
+              label=map_mitigation(mitigation_list[i]),
+              color=COLORBLIND_PALETTE[i % len(COLORBLIND_PALETTE)], edgecolor='black', linewidth=0.8)
+              #hatch=HATCH_PATTERNS[i % len(HATCH_PATTERNS)])
 
   # Add red threshold lines
   threshold_high = 0.15
@@ -183,7 +204,7 @@ def grouped_bar(metrics_dict, mitigation_list, comparison, model, mitigation_cat
   # Add labels and title with increased font size and bold text
   plt.xlabel('Fairness Metrics', fontsize=14)
   plt.ylabel('Fairness Metric Values', fontsize=14)
-  # plt.title(f"{dataset_name} {sensible_attribute} {model} {comparison} {mitigation_category}", fontsize=16, fontweight='bold')
+  ##plt.title(f"{dataset_name} {sensible_attribute} {model} {comparison} {mitigation_category}", fontsize=16, fontweight='bold')
 
   # Map metrics and set x-ticks
   mapped_metrics = list(map(map_metric, metrics))
@@ -237,7 +258,9 @@ def grouped_bar_no_model(metrics_dict, mitigation_list, comparison, mitigation_c
       plt.bar(bar_positions + i*bar_width,
               data[i],
               width=bar_width,
-              label=map_mitigation(mitigation_list[i]))
+              label=map_mitigation(mitigation_list[i]),
+              color=COLORBLIND_PALETTE[i % len(COLORBLIND_PALETTE)], edgecolor='black', linewidth=0.8)
+              #hatch=HATCH_PATTERNS[i % len(HATCH_PATTERNS)])
   # Add red threshold lines
   plt.legend(fontsize=12, ncol=2)
   threshold_high = 0.15
@@ -248,7 +271,7 @@ def grouped_bar_no_model(metrics_dict, mitigation_list, comparison, mitigation_c
   # Add labels and title
   plt.xlabel('Fairness Metrics', fontsize=14)
   plt.ylabel('Fairness Metric Values', fontsize=14)
-  # plt.title(dataset_name+' '+sensible_attribute+' '+comparison+' '+mitigation_category, fontsize=16, fontweight='bold')
+  #plt.title(dataset_name+' '+sensible_attribute+' '+comparison+' '+mitigation_category, fontsize=16, fontweight='bold')
 
   mapped_metrics = map(map_metric, metrics)
   plt.xticks(bar_positions + bar_width, mapped_metrics, rotation=45, ha='right',  fontsize=14)
@@ -303,7 +326,9 @@ def grouped_bar_std_dev(metrics_dict, mitigation_list, comparison, model, mitiga
               yerr=errors[i],  # Adding standard deviation as error bars
               capsize=5,  # Error bar caps
               width=bar_width,
-              label=map_mitigation(mitigation_list[i]))
+              label=map_mitigation(mitigation_list[i]),
+              color=COLORBLIND_PALETTE[i % len(COLORBLIND_PALETTE)], edgecolor='black', linewidth=0.8)
+              #hatch=HATCH_PATTERNS[i % len(HATCH_PATTERNS)])
 
   # Add red threshold lines
   threshold_high = 0.15
@@ -312,7 +337,7 @@ def grouped_bar_std_dev(metrics_dict, mitigation_list, comparison, model, mitiga
   # Add labels and title with increased font size and bold text
   plt.xlabel('Fairness Metrics', fontsize=14)
   plt.ylabel('Fairness Metric Values', fontsize=14)
-  # plt.title(f"{dataset_name} {sensible_attribute} {model} {comparison} {mitigation_category}", fontsize=16, fontweight='bold')
+  #plt.title(f"{dataset_name} {sensible_attribute} {model} {comparison} {mitigation_category}", fontsize=16, fontweight='bold')
 
   # Map metrics and set x-ticks
   mapped_metrics = list(map(map_metric, metrics))
@@ -374,7 +399,9 @@ def grouped_bar_no_model_std_dev(metrics_dict, mitigation_list, comparison, miti
               yerr=errors[i],  # Adding standard deviation as error bars
               capsize=5,  # Error bar caps
               width=bar_width,
-              label=map_mitigation(mitigation_list[i]))
+              label=map_mitigation(mitigation_list[i]),
+              color=COLORBLIND_PALETTE[i % len(COLORBLIND_PALETTE)], edgecolor='black', linewidth=0.8)
+              #hatch=HATCH_PATTERNS[i % len(HATCH_PATTERNS)])
   # Add red threshold lines
   plt.legend(fontsize=12, ncol=2)
   threshold_high = 0.15
@@ -385,7 +412,7 @@ def grouped_bar_no_model_std_dev(metrics_dict, mitigation_list, comparison, miti
   # Add labels and title
   plt.xlabel('Fairness Metrics', fontsize=14)
   plt.ylabel('Fairness Metric Values', fontsize=14)
-  # plt.title(dataset_name+' '+sensible_attribute+' '+comparison+' '+mitigation_category, fontsize=16, fontweight='bold')
+  #plt.title(dataset_name+' '+sensible_attribute+' '+comparison+' '+mitigation_category, fontsize=16, fontweight='bold')
 
   #mapped_metrics = map(map_metric, metrics)
   #plt.xticks(bar_positions + bar_width, mapped_metrics, rotation=45, ha='right',  fontsize=14)
@@ -431,6 +458,71 @@ def color_cells_mean_std_dev(value):
       # Pastel orange for values outside the range
       return 'background-color: #f9ccac; color: black;'
 
+#Add bold to maximum value in a column    
+def highlight_max_bold(df):
+    # Convert numeric values in the dataframe
+    numeric_df = df.apply(lambda col: col.map(lambda x: float(x.split('+/-')[0]) if isinstance(x, str) else float('-inf')))
+    
+    # Get the maximum value for each column
+    max_values = numeric_df.max()
+    
+    # Apply bold formatting only to the maximum values in each column
+    def bold_formatter(col):
+        return ["font-weight: bold;" if float(val.split('+/-')[0]) == max_values[col.name] else "" for val in col]
+    
+    return df.apply(bold_formatter, axis=0)
+
+
+#Add bold to nearest to zero value in a column    
+def highlight_nearest_to_zero(df):
+    # Convert numeric values in the dataframe
+    numeric_df = df.apply(lambda col: col.map(lambda x: float(x.split('+/-')[0]) if isinstance(x, str) else float('nan')))
+    
+    # Get the absolute difference from zero for each value
+    abs_values = numeric_df.abs()
+    
+    # Find the index of the minimum absolute value for each column
+    nearest_to_zero_idx = abs_values.idxmin()
+    
+    # Apply bold formatting to the value nearest to zero in each column
+    def bold_formatter(col):
+        return ["font-weight: bold;" if val == col[nearest_to_zero_idx[col.name]] else "" for val in col]
+    
+    return df.apply(bold_formatter, axis=0)
+
+def highlight_nearest_to_zero_mean_stddev(df):
+    # Convert numeric values in the dataframe, accounting for uncertainty
+    def extract_value_and_uncertainty(value):
+        if isinstance(value, str):
+            main_value, uncertainty = map(float, value.split('+/-'))
+            complete_value_max = main_value + uncertainty
+            complete_value_min = main_value - uncertainty
+            return float(complete_value_max), float(complete_value_min)
+        else:
+            return float('nan'), float('nan')  # In case there's no uncertainty, we return NaN for that cell
+
+    # Apply the function to extract complete values
+    complete_values_df = df.applymap(lambda val: extract_value_and_uncertainty(val)[0] if isinstance(val, str) else val)
+    complete_values_df_min = df.applymap(lambda val: extract_value_and_uncertainty(val)[1] if isinstance(val, str) else val)
+    
+    # Calculate the absolute distances from zero for both max and min values
+    abs_values_max = complete_values_df.abs()
+    abs_values_min = complete_values_df_min.abs()
+
+    # Find the nearest to zero values (the one with the smallest absolute distance)
+    nearest_to_zero_idx_max = abs_values_max.idxmin()
+    nearest_to_zero_idx_min = abs_values_min.idxmin()
+
+    # Create a bold formatter to highlight the nearest to zero values
+    def bold_formatter(col):
+        return [
+            "font-weight: bold;" if val == col[nearest_to_zero_idx_max[col.name]] else
+            "font-weight: bold;" if val == col[nearest_to_zero_idx_min[col.name]] else "" 
+            for val in col
+        ]
+    
+    return df.apply(bold_formatter, axis=0)
+
 def data_framing(dictionary, dataset, sensible_attribute, comparison, model, mitigation_list, option):
   # Define the columns for your DataFrame
   columns = ['Mitigation'] + metrics
@@ -461,9 +553,10 @@ def data_framing(dictionary, dataset, sensible_attribute, comparison, model, mit
 
   # Apply the conditional formatting
   if option=='mean':
-    styled_data = data.style.set_caption(title).applymap(color_cells_mean, subset=metrics)
+    styled_data = data.style.set_caption(title).applymap(color_cells_mean, subset=metrics).apply(highlight_nearest_to_zero, axis=None)
   else: 
-    styled_data = data.style.set_caption(title).applymap(color_cells_mean_std_dev, subset=metrics)
+    styled_data = data.style.set_caption(title).applymap(color_cells_mean_std_dev, subset=metrics).apply(highlight_nearest_to_zero_mean_stddev, axis=None)
+    
   return styled_data
   
 def perf_data_framing(dictionary, dataset, sensible_attribute, model, mitigation_list):
@@ -485,7 +578,12 @@ def perf_data_framing(dictionary, dataset, sensible_attribute, model, mitigation
     data = pd.concat([data, row_df], ignore_index=True)
 
   data.set_index('Mitigation', inplace=True)
-  return data
+
+  # Apply the conditional formatting
+  styled_data = data.style.apply(highlight_max_bold, axis=None)
+    
+  return styled_data
+ 
 
 # Load the metrics results
 def load_metrics(dataset_name, sensible_attribute, mitigation):
