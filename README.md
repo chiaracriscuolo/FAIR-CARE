@@ -17,6 +17,10 @@ This Github repository contains the source code and the plots of the experiments
 │   ├── measurements
 │   │   ├── metrics-aids-age_cat-aif360-ad.p
 │   │   ...
+|   ├── fidings
+│   │   ├── fairness
+│   │   ├── perfomance
+│   │   ├── trade-off
 │   ├── plots
 │   │   ├── aids-age_cat
 │   │   ├── aids-homo_cat
