@@ -1,9 +1,9 @@
-# FAIR-CARE
+# 🔬 FAIR-CARE
 A Comparative Evaluation of Unfairness Mitigation Approaches for Healthcare Datasets
 
 This Github repository contains the source code and the plots of the experiments of the paper.
 
-# Features
+# 💬 Features
 
 - Supports a wide range of fairness metrics (e.g., demographic parity, equal opportunity) both in division and subtraction comparison
 - Includes pre-processing, in-processing, and post-processing bias mitigation techniques
@@ -44,7 +44,7 @@ FairAlgorithm/
 # Repository structure
 ```
 
-# Info for developers
+# 💬 Info for developers
 It is possible to visualize the content of this repository also in [this Google Colab project](https://drive.google.com/drive/folders/182YKE0bNOltAezFfcEVEy7-FwXemlWX8?usp=sharing) otherwise the following specifications allow to execute this code locally using Jupyter Notebook with Python kernel.
 
 ## 📊 Run the Pipeline on an Existing Dataset
@@ -67,7 +67,7 @@ To apply the framework to a new dataset:
 - Binarize protected attributes and target variable
 - Perform any required transformations
 
-3. Update the configuration file:
+3. Update the configuration file in source/utils/ :
 In your notebooks or script, modify the relevant parameters (e.g., dataset name, target column, protected attributes). You can also adapt existing functions and notebook cells for your specific use case.
 
 🛠 Note: Preprocessing is not automated by default to allow flexibility for healthcare-specific cleaning logic. However, we provide modular code and clear examples to support adaptation.
