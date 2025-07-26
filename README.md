@@ -1,5 +1,5 @@
 # 🔬 FAIR-CARE
-A Comparative Evaluation of Unfairness Mitigation Approaches for Healthcare Datasets
+A Comparative Evaluation of Unfairness Mitigation Approaches for Healthcare Datasets. FAIR-CARE is a Python-based framework designed to evaluate and mitigate algorithmic bias in healthcare machine learning pipelines. It supports multiple fairness metrics, mitigation strategies, and  machine learning models commonly used in healthcare prediction tasks.
 
 This Github repository contains the source code and the plots of the experiments of the paper.
 
@@ -93,5 +93,56 @@ FAIR-CARE allows comparison across:
 
 # 📓 Visualization
 The Flow_FairAlgorithm.drawio file provides a visual overview of the pipeline, from preprocessing to mitigation and evaluation.
+
+# ⚙️ Configuration Guide (config file)
+This framework is configured through a Python configuration file that defines:
+
+## 🔍 Models
+Supported ML models include:
+- Logistic Regression
+- Decision Tree (DT)
+- Bagging (DT base)
+- Random Forest
+- Extremely Randomized Trees
+- AdaBoost (DT base)
+
+Set via the models dictionary using Scikit-learn implementations. All models use a fixed random_seed for reproducibility.
+
+## 📊 Metrics
+- Performance: accuracy, precision, recall, f1_score
+- Fairness: Includes metrics like EqualOpportunity, GroupFairness, PredictiveParity, and more, with 2 possible comparisons division and subtraction
+
+## 🧪 Datasets
+Each dataset in datasets_config includes:
+- target_variable: The prediction label
+- sensible_attributes: Protected features
+- ignore_cols: (Optional) Features to exclude
+- default_mappings: Maps numeric values to readable labels
+- n_splits: Cross-validation folds
+
+Update this section when adding a new dataset.
+
+## 🛠️ Mitigation Techniques
+Mitigation codes refer to:
+- fl- for Fairlearn
+- aif360- for IBM's AI Fairness 360
+  
+Techniques are grouped by type:
+
+- Pre-processing: fl-cr, aif360-di, etc.
+- In-processing: aif360-ad, aif360-pr
+- Post-processing: fl-to, aif360-roc
+
+Listed under all_techniques, with subsets for filtering.
+
+## ⚖️ Fairness Config (AIF360)
+The aif_config block defines:
+- privileged_groups / unprivileged_groups
+- Model for in-processing (e.g., lmod)
+- Mitigation params: k, max_iter_lfr, etc.
+
+Configure these per attribute for fairness evaluation with IBM techniques
+
+
 
 
